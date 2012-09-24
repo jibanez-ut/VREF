@@ -4,5 +4,5 @@
 process.argv.forEach(function (val, index, array) {
     console.log(index + ': ' + val);
 });
-
-console.log('FIN update.secondary')
+console.log('lalala');
+console.log('FIN update.secondary');
