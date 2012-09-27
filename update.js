@@ -32,10 +32,10 @@ child = exec(cmd, function (error, stdout, stderr) {
     //USERZOOM/repository.git/rama: Solo se enviará cuando se updatea esa rama de ese repositorio en concreto, la rama es completa ej: USERZOOM/repository.git/fix/ranking-question
     //USERZOOM/rama: Se enviará cuando se update esa rama para cualquier repositorio.
     
-
-
-    //Aquí hago el tema del socket
+    //Consigo el nombre del repositorio
+    var repo = process.cwd().split('/');
+    repo = repo[repo.length-1];
+   
+   //Aquí hago el tema del socket
   }
 });
-
-console.log(process.cwd());
