@@ -1,8 +1,0 @@
-#!/usr/bin/node
-
-// print process.argv
-process.argv.forEach(function (val, index, array) {
-    console.log(index + ': ' + val);
-});
-console.log('lalala');
-console.log('FIN update.secondary');
