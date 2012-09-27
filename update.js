@@ -35,7 +35,10 @@ child = exec(cmd, function (error, stdout, stderr) {
     //Consigo el nombre del repositorio
     var repo = process.cwd().split('/');
     repo = repo[repo.length-1];
-   
+
+    //Consigo la rama updateada:
+    var branch = process.argv[2].replace("refs/heads/","");
+    console.log(branch);
    //Aquí hago el tema del socket
   }
 });
