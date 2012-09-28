@@ -1,14 +1,16 @@
 #!/usr/bin/node
 
+//Revisar: https://github.com/zma/usefulscripts/blob/master/script/post-receive
+
 var sys = require('util');
 var net = require('net');
 var exec = require('child_process').exec;
 
-var debug = false;
+var debug = true;
 debug = debug? console : { log: function(){} };
 
 //Mensaje base:
-var basemsg = '{g:$GRUPO,m:"$MSG"}';
+var basemsg = 'g:$GRUPO m:"$MSG"';
 var port = 40011; //Poner puerto de Naidbot
 var ip_naidbot = '192.168.0.45'; //Poner IP de NaidBot
 
@@ -19,6 +21,11 @@ process.argv.forEach(function (val, index, array) { debug.log(index + ': ' + val
 var cmd = 'git log --pretty=format:"%h - %an, %ar : %s" '+ process.argv[2]+' ' + process.argv[3]  + '..' + process.argv[4];
 if(process.argv[3] == 0 ) {
   cmd = 'git log --pretty=format:"%H - %an, %ar : %s"  --all  --not $(git branch -a | grep -Fv ' + process.argv[2].replace("refs/heads/","") + ' )';
+  //cmd = 'git log ' + process.argv[2] + ' ';
+  //cmd = 'git rev-list ' + process.argv[4];
+  cmd = 'git log --pretty=format:"%H %d - %an, %ar : %s" ' + process.argv[4] +'~1..' + process.argv[4];
+  cmd = 'git rev-list ' + process.argv[5]  + '..' + process.argv[4];
+
 
 }
 debug.log(cmd);
@@ -45,9 +52,9 @@ var child = exec(cmd, function (error, stdout, stderr) {
     //USERZOOM/repository.git: Solo se enviará cuando se updatea ese repositorio en concreto
     //USERZOOM/repository.git/rama: Solo se enviará cuando se updatea esa rama de ese repositorio en concreto, la rama es completa ej: USERZOOM/repository.git/fix/ranking-question
     //USERZOOM/rama: Se enviará cuando se update esa rama para cualquier repositorio.
-   var groups = ['USERZOOM','USERZOOM/'+repo,'USERZOOM/'+repo+'/'+branch,'USERZOOM/'+branchgroup];
-  //Envio los mensaje
-  //Creo los sockets
+    var groups = ['USERZOOM','USERZOOM/'+repo,'USERZOOM/'+repo+'/'+branch,'USERZOOM/'+branchgroup];
+    //Envio los mensaje
+    //Creo los sockets
     var socket = net.createConnection(port,ip_naidbot,function () {
   
     });
