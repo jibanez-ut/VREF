@@ -4,7 +4,7 @@ var sys = require('util');
 var net = require('net');
 var exec = require('child_process').exec;
 
-var debug = true;
+var debug = false;
 debug = debug? console : { log: function(){} };
 
 //Mensaje base:
