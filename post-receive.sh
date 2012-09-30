@@ -682,7 +682,7 @@ then
 fi
 
 recipients=$(git config hooks.mailinglist)
-senderemail=$(git config hooks.senderemail || echo 'zma@fclose.com')
+senderemail=$(git config hooks.senderemail || echo 's.taticduo@gmail.com')
 announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
 emailprefix=$(git config hooks.emailprefix || echo '[GIT] ')
@@ -702,7 +702,13 @@ else
 		generate_email $oldrev $newrev $refname > $email_tmp_file
 		emailsubject=`cat $emailsubject_tmp_file`
 		emailsubject="$emailprefix$projectdesc: $emailsubject"
-		cat $email_tmp_file | mailx -S smtp="smtp://smtp.cse.ust.hk" -s "$emailsubject" -r $senderemail $recipients 
+		#cat $email_tmp_file | mailx -S smtp="smtp.gmail.com" -s "$emailsubject" -r $senderemail $recipients 
+		echo "SUBJECT: $emailsubject"
+		cat $email_tmp_file
+		
+		
+		
+		
 		rm -f $emailsubject_tmp_file $email_tmp_file
 	done
 fi
