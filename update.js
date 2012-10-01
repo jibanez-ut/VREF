@@ -6,11 +6,11 @@ var sys = require('util');
 var net = require('net');
 var exec = require('child_process').exec;
 
-var debug = true;
+var debug = false;
 debug = debug? console : { log: function(){} };
 
 //Mensaje base:
-var basemsg = 'g:$GRUPO m:"$MSG"';
+var basemsg = 'g:$GRUPO m:"$MSG"\n';
 var port = 40011; //Poner puerto de Naidbot
 var ip_naidbot = '192.168.0.45'; //Poner IP de NaidBot
 
