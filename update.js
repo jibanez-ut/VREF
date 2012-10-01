@@ -23,9 +23,10 @@ if(process.argv[3] == 0 ) {
   cmd = 'git log --pretty=format:"%H - %an, %ar : %s"  --all  --not $(git branch -a | grep -Fv ' + process.argv[2].replace("refs/heads/","") + ' )';
   //cmd = 'git log ' + process.argv[2] + ' ';
   //cmd = 'git rev-list ' + process.argv[4];
-  cmd = 'git log --pretty=format:"%H %d - %an, %ar : %s" ' + process.argv[4] +'~1..' + process.argv[4];
-  cmd = 'git rev-list ' + process.argv[5]  + '..' + process.argv[4];
+  //cmd = 'git log --pretty=format:"%H %d - %an, %ar : %s" ' + process.argv[4] +'~1..' + process.argv[4];
+  //cmd = 'git rev-list ' + process.argv[5]  + '..' + process.argv[4];
 
+var cmd = 'git log --pretty=format:"%h - %an, %ar : %s" ' + process.argv[4]  + '..' + process.argv[4];
 
 }
 debug.log(cmd);
