@@ -65,8 +65,18 @@
         // uz/rama: Get announces from all repositories with this specific branch
         // var groups = ['uz','uz/'+repo,'uz/'+repo+'/'+branch,'uz/'+branchgroup];
     
+        // Two groups uz and (uz/it or uz/qa) depend of the repo name
+        var group_uz = 'uz/it';
+        switch(repo) {
+          case 'selenium':
+          case 'qascripts':
+          case 'kayako':
+          case 'support':
+            group = 'uz/qa';
+            break;
+        }
         // Initially for testing pouposses only use group USERZOOM
-        var groups = ['uz'];
+        var groups = ['uz',group_uz];
     
         //Send message to Socket Naidbot.
         var socket = l_this.net.createConnection(l_this.naidbot.port,l_this.naidbot.ip,function () { });
