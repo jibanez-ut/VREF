@@ -13,8 +13,6 @@
   net:  require('net'),
   exec: require('child_process').exec,
 
-  // Git command to get git log.
-  cmd: "",
 
   //Boolean variable, Push created or not a new branch.
   newbranch: (process.argv[3] == 0),
@@ -23,20 +21,21 @@
   
   naidbot: {
     basemsg: 'g:$GRUPO m:"$MSG"\n', //Base message to naidbot
-    port: 30000, //NaidBot socket port    
+    port: 30000, //NaidBot socket port
     ip: 'localhost', //NaidBot socket IP
   },
   init: function() {
     var l_this = this;
+    var cmd = "";
     // print process.argv arguments in case of debug activated
     if(l_this.debug) { process.argv.forEach(function (val, index, array) { l_this.debug.log(index + ': ' + val); }); }
     
     // Git command creation
     if(l_this.newbranch ) { // Git show only last commit information in case of new branch created.
-      this.cmd = 'git show --pretty=format:"%h - %an, %ar : %s" ' + process.argv[4] + ' | head -n 1';
+      cmd = 'git show --pretty=format:"%h - %an, %ar : %s" ' + process.argv[4] + ' | head -n 1';
     }
     else { // Git show all comits pushed log.
-      this.cmd = 'git log --pretty=format:"%h - %an, %ar : %s" '+ process.argv[2]+' ' + process.argv[3]  + '..' + process.argv[4];
+      cmd = 'git log --pretty=format:"%h - %an, %ar : %s" '+ process.argv[2]+' ' + process.argv[3]  + '..' + process.argv[4];
     }
     l_this.debug.log(cmd);
   
@@ -47,7 +46,7 @@
       if (error !== null) {
         console.log('@exec error: ' + error);
       }
-      else {    
+      else {
         //Get repository name
         var repo = process.cwd().split('/');
         repo = repo[repo.length-1].replace(".git","");
@@ -85,9 +84,9 @@
           }).on('end',function() {
               l_this.debug.log('Socket closed');
             }).on('error',function(e) {
-              console.log('['+ e + '] Naidbot server not running, please contact "Oficina de Madrid"...'); 
+              console.log('['+ e + '] Naidbot server not running, please contact "Oficina de Madrid"...');
             });
       }
-    });    
+    });
   }
 }).init();
