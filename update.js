@@ -6,7 +6,7 @@
 
 ({ 
   //Debug send us verbose output on push event.
-  debug: (true)? console : { log: function(){} },
+  debug: (false)? console : { log: function(){} },
   
   //Requires
   sys:  require('util'),
