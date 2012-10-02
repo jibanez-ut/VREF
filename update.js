@@ -6,7 +6,7 @@
 
 ({ 
   //Debug send us verbose output on push event.
-  debug: (false)? console : { log: function(){} },
+  debug: (true)? console : { log: function(){} },
   
   //Requires
   sys:  require('util'),
@@ -27,22 +27,23 @@
     ip: 'localhost', //NaidBot socket IP
   },
   init: function() {
+    var l_this = this;
     // print process.argv arguments in case of debug activated
-    if(debug) { process.argv.forEach(function (val, index, array) { debug.log(index + ': ' + val); }); }
+    if(l_this.debug) { process.argv.forEach(function (val, index, array) { l_this.debug.log(index + ': ' + val); }); }
     
     // Git command creation
-    if(updateVREF.newbranch ) { // Git show only last commit information in case of new branch created.
+    if(l_this.newbranch ) { // Git show only last commit information in case of new branch created.
       this.cmd = 'git show --pretty=format:"%h - %an, %ar : %s" ' + process.argv[4] + ' | head -n 1';
     }
     else { // Git show all comits pushed log.
       this.cmd = 'git log --pretty=format:"%h - %an, %ar : %s" '+ process.argv[2]+' ' + process.argv[3]  + '..' + process.argv[4];
     }
-    debug.log(cmd);
+    l_this.debug.log(cmd);
   
     //Send command to system.
-    var child = updateVREF.exec(cmd, function (error, stdout, stderr) {
-      debug.log('@stdout: ' + stdout);
-      debug.log('@stderr: ' + stderr);
+    var child = l_this.exec(cmd, function (error, stdout, stderr) {
+      l_this.debug.log('@stdout: ' + stdout);
+      l_this.debug.log('@stderr: ' + stderr);
       if (error !== null) {
         console.log('@exec error: ' + error);
       }
@@ -69,20 +70,20 @@
         var groups = ['USERZOOM'];
     
         //Send message to Socket Naidbot.
-        var socket = updateVREF.net.createConnection(updateVREF.naidbot.port,updateVREF.naidbot.ip,function () { });
+        var socket = l_this.net.createConnection(l_this.naidbot.port,l_this.naidbot.ip,function () { });
         socket.on('data',function(data) {
-            debug.log('RESPONSE: ' + data);
+            l_this.debug.log('RESPONSE: ' + data);
           }).on('connect',function(){
             // Header message
-            var entorno = 'PUSH: ' + repo + ' [' + branch + ']' + (updateVREF.newbranch?' (new branch)':'') + '\r\n';
+            var entorno = 'PUSH: ' + repo + ' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
             // Send the message to all groups
             for (var i = 0;i < groups.length;i++) {
-              var msg = updateVREF.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout);
+              var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout);
               socket.write(msg);
             }
             socket.end();
           }).on('end',function() {
-              debug.log('Socket closed');
+              l_this.debug.log('Socket closed');
             }).on('error',function(e) {
               console.log('['+ e + '] Naidbot server not running, please contact "Oficina de Madrid"...'); 
             });
