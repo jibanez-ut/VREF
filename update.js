@@ -84,10 +84,10 @@
             l_this.debug.log('RESPONSE: ' + data);
           }).on('connect',function(){
             // Header message
-            var entorno = 'PUSH: ' + repo + ' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
+            var entorno = '[$NAIDBOTGROUP] PUSH: ' + repo +' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
             // Send the message to all groups
             for (var i = 0;i < groups.length;i++) {
-              var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout);
+              var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout).replace('$NAIDBOTGROUP',groups[i]);
               socket.write(msg);
             }
             socket.end();
