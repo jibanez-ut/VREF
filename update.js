@@ -80,20 +80,15 @@
         // Send the message to all groups
         for (var i = 0;i < groups.length;i++) {
           // Send message to Socket Naidbot.
-          var socket = l_this.net.createConnection(l_this.naidbot.port,l_this.naidbot.ip,function () { });
-          socket.on('data',function(data) {
-              l_this.debug.log('RESPONSE: ' + data);
-            }).on('connect',function(){
-              // Header message
-              var entorno = '[$NAIDBOTGROUP] PUSH: ' + repo +' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
-              var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout).replace('$NAIDBOTGROUP',groups[i]);
-              socket.write(msg);
-              socket.end();
-            }).on('end',function() {
-                l_this.debug.log('Socket closed');
-              }).on('error',function(e) {
-                console.log('['+ e + '] Naidbot server not running, please contact "Oficina de Madrid"...');
-              });
+          try {
+            var socket = l_this.net.socket();
+            socket.connect(l_this.naidbot.port,l_this.naidbot.ip,function () { });
+            var entorno = '[$NAIDBOTGROUP] PUSH: ' + repo +' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
+            var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout).replace('$NAIDBOTGROUP',groups[i]);
+            socket.write(msg);
+            socket.end();
+          }
+          catch(e) { console.log('['+ e + '] Naidbot server not running, please contact "Oficina de Madrid"...'); }      
         }
       }
     });
