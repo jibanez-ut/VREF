@@ -59,14 +59,14 @@
 
         // Here are all groups to sned infio
         // Four initial groups
-        // USERZOOM: Get announces from all repositories
-        // USERZOOM/repository.git: Get announces from this specific repository
-        // USERZOOM/repository.git/rama: Get announces from specific repository and branch 
-        // USERZOOM/rama: Get announces from all repositories with this specific branch
-        // var groups = ['USERZOOM','USERZOOM/'+repo,'USERZOOM/'+repo+'/'+branch,'USERZOOM/'+branchgroup];
+        // uz: Get announces from all repositories
+        // uz/repository.git: Get announces from this specific repository
+        // uz/repository.git/rama: Get announces from specific repository and branch 
+        // uz/rama: Get announces from all repositories with this specific branch
+        // var groups = ['uz','uz/'+repo,'uz/'+repo+'/'+branch,'uz/'+branchgroup];
     
         // Initially for testing pouposses only use group USERZOOM
-        var groups = ['USERZOOM'];
+        var groups = ['uz'];
     
         //Send message to Socket Naidbot.
         var socket = l_this.net.createConnection(l_this.naidbot.port,l_this.naidbot.ip,function () { });
