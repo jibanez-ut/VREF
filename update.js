@@ -81,7 +81,7 @@
         for (var i = 0;i < groups.length;i++) {
           // Send message to Socket Naidbot.
           try {
-            var socket = l_this.net.socket();
+            var socket = l_this.net.Socket();
             socket.connect(l_this.naidbot.port,l_this.naidbot.ip,function () { });
             var entorno = '[$NAIDBOTGROUP] PUSH: ' + repo +' [' + branch + ']' + (l_this.newbranch?' (new branch)':'') + '\r\n';
             var msg = l_this.naidbot.basemsg.replace('$GRUPO', groups[i]).replace("$MSG",entorno + stdout).replace('$NAIDBOTGROUP',groups[i]);
